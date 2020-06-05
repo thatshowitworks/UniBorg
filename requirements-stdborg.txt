@@ -12,7 +12,6 @@ gtts
 hachoir
 Pillow
 PyLyrics
-psycopg2
 pySmartDL
 python-barcode
 python-magic
