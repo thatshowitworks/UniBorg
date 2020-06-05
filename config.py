@@ -15,7 +15,6 @@ class Development(Config):
   G_DRIVE_CLIENT_ID = "91901208556-re664n44vqmj3itptrjq36spgfmbt5l7.apps.googleusercontent.com"
   G_DRIVE_CLIENT_SECRET = "l4YfrlnXHBW3Py0XHz9mZv1Q"
   AUTH_TOKEN_DATA = ""
-  GDRIVE_FOLDER_ID = "1CMHJAULGWaE6IGTjtdLvGozV5m5k96vo"
   # specify LOAD and NO_LOAD
   LOAD = []
   NO_LOAD = []
