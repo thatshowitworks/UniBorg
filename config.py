@@ -11,6 +11,7 @@ class Development(Config):
   TG_BOT_TOKEN_BF_HER = "812423101:AAEpBE5RNIZ8zaBOJN7SD31rs1VO6dz9zNc"
   TG_BOT_USER_NAME_BF_HER = "satwik_ka_bot"
   TMP_DOWNLOAD_DIRECTORY = "./DOWNLOADS/"
+  DEFAULT_STICKER_PACK = ""
   G_DRIVE_CLIENT_ID = "91901208556-re664n44vqmj3itptrjq36spgfmbt5l7.apps.googleusercontent.com"
   G_DRIVE_CLIENT_SECRET = "l4YfrlnXHBW3Py0XHz9mZv1Q"
   AUTH_TOKEN_DATA = ""
