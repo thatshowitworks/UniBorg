@@ -1,36 +1,69 @@
-"""@RollADie and @AnimatedDart
-Viewer and Executor discretion is advised,
-while executing / running any parts of the code
-Nobody is reponsible for your account, 
-Your account might get banned for offensive use of this script,
-The below script is only intended for "fun" and "entertainment"
-and please read https://t.me/UniBorg/39 before proceeding to run this!"""
+"""@RollADie
+Syntax: .dice, .dart, .ball"""
+
 from telethon.tl.types import InputMediaDice
 from uniborg.util import admin_cmd
 
-# EMOJI CONSTANTS
-DART_E_MOJI = "🎯"
-DICE_E_MOJI = "🎲"
-BALL_E_MOJI = "🏀"
-# EMOJI CONSTANTS
 
-
-@borg.on(admin_cmd(pattern=f"({DART_E_MOJI}|{DICE_E_MOJI}|{BALL_E_MOJI}) ?(.*)"))
+@borg.on(admin_cmd(pattern="dice ?(.*)"))
 async def _(event):
     if event.fwd_from:
         return
-    reply_message = event
-    if event.reply_to_msg_id:
-        reply_message = await event.get_reply_message()
-    emoticon = event.pattern_match.group(1)
-    input_str = event.pattern_match.group(2)
+    input_str = event.pattern_match.group(1)
     await event.delete()
-    r = await reply_message.reply(file=InputMediaDice(emoticon=emoticon))
+    r = await event.reply(file=InputMediaDice("🎲"))
     if input_str:
         try:
             required_number = int(input_str)
+            if required_number >=7:
+                  required_number = 6
+            if required_number <=0:
+                  required_number = 1
             while not r.media.value == required_number:
                 await r.delete()
-                r = await reply_message.reply(file=InputMediaDice(emoticon=emoticon))
+                r = await event.reply(file=InputMediaDice("🎲"))
+        except:
+            pass
+
+
+
+@borg.on(admin_cmd(pattern="dart ?(.*)"))
+async def _(event):
+    if event.fwd_from:
+        return
+    input_str = event.pattern_match.group(1)
+    await event.delete()
+    r = await event.reply(file=InputMediaDice("🎯"))
+    if input_str:
+        try:
+            required_number = int(input_str)
+            if required_number >=7:
+                  required_number = 6
+            if required_number <=0:
+                  required_number = 1
+            while not r.media.value == required_number:
+                await r.delete()
+                r = await event.reply(file=InputMediaDice("🎯"))
+        except:
+            pass
+
+
+@borg.on(admin_cmd(pattern="ball ?(.*)"))
+async def _(event):
+    if event.fwd_from:
+        return
+    input_str = event.pattern_match.group(1)
+    await event.delete()
+    r = await event.reply(file=InputMediaDice("🏀"))
+    if input_str:
+        try:
+            required_number = int(input_str)
+            if required_number >=6:
+                  required_number = 5
+            if required_number <=0:
+                  required_number = 1
+            while not r.media.value == required_number:
+                await r.delete()
+                r = await event.reply(file=InputMediaDice("🏀"))
         except:
             pass
