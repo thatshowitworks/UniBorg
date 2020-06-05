@@ -1,6 +1,7 @@
 from sample_config import Config
 
 class Development(Config):
+  ALIVE_NAME = "Satwik"
   APP_ID = 928403
   API_HASH = "4a546388b91f6f815c4a6adbbc30d574"
   NO_OF_BUTTONS_DISPLAYED_IN_H_ME_CMD = 4
