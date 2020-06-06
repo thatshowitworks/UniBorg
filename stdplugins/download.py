@@ -7,6 +7,8 @@ import aiohttp
 import asyncio
 import math
 import os
+import subprocess
+import asyncio
 import time
 from datetime import datetime
 from pySmartDL import SmartDL
@@ -89,3 +91,17 @@ async def _(event):
             await mone.edit("Incorrect URL\n {}".format(input_str))
     else:
         await mone.edit("Reply to a message to download to my local server.")
+
+@borg.on(admin_cmd(pattern="downloads ?(.*)"))
+async def _(event):
+    if event.fwd_from:
+        return
+    cmd = "ls DOWNLOADS"
+    process = await asyncio.create_subprocess_shell(
+        cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+    )
+    o = stdout.decode()
+    _o = o.split("\n")
+    o = "\n".join(_o)
+    OUTPUT = f"**Here are your downloads:**\n{o}"
+    await event.edit(OUTPUT)
