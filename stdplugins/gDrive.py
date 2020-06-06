@@ -294,8 +294,8 @@ async def upload_file(http, file_path, file_name, mime_type, event, parent_id):
         #if status:
             #percentage = int(status.progress() * 100)
             #progress_str = "[{0}{1}]\nProgress: {2}%\n".format(
-                #"".join(["█" for i in range(math.floor(percentage / 5))]),
-                #"".join(["░" for i in range(20 - math.floor(percentage / 5))]),
+                #"".join(["⬤" for i in range(math.floor(percentage / 5))]),
+                #"".join(["◯" for i in range(20 - math.floor(percentage / 5))]),
                 #round(percentage, 2)
             #)
             #current_message = f"Uploading to G-Drive:\nFile Name: `{file_name}`\n{progress_str}"
