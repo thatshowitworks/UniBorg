@@ -92,7 +92,7 @@ async def _(event):
     else:
         await mone.edit("Reply to a message to download to my local server.")
 
-@borg.on(admin_cmd(pattern="downloads ?(.*)"))
+@borg.on(admin_cmd(pattern="dls ?(.*)"))
 async def _(event):
     if event.fwd_from:
         return
