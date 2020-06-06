@@ -254,3 +254,30 @@ async def _(event):
             await mone.edit("Uploaded in {} seconds.".format(ms))
     else:
         await mone.edit("404: File Not Found")
+
+@borg.on(admin_cmd(pattern="up ?(.*)"))
+async def _(event):
+    if event.fwd_from:
+        return
+    file = event.pattern_match.group(1)
+    x = f"../Desktop/{file}"
+    if os.path.exists(x):
+        start = datetime.now()
+        c_time = time.time()
+        await borg.send_file(
+            event.chat_id,
+            x,
+            force_document=True,
+            supports_streaming=False,
+            allow_cache=False,
+            reply_to=event.message.id,
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress(d, t, mone, c_time, "trying to upload")
+            )
+        )
+        end = datetime.now()
+        os.remove(input_str)
+        ms = (end - start).seconds
+        await mone.edit("Uploaded in {} seconds.".format(ms))
+    else:
+        await mone.edit("404: File Not Found")
