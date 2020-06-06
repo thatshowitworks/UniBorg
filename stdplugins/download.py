@@ -105,3 +105,16 @@ async def _(event):
     o = "\n".join(_o)
     OUTPUT = f"**Here are your downloads:**\n{o}"
     await event.edit(OUTPUT)
+
+@borg.on(admin_cmd(pattern="delete ?(.*)"))
+async def _(event):
+    if event.fwd_from:
+        return
+    file = event.pattern_match.group(1)
+    if not file:
+        await event.edit("Enter the file name to delete")
+    try:
+    	os.system(f"rm -rf DOWNLOADS/{x}")
+    	await event.edit("File deleted successfully.")
+    except:
+    	await event.edit("No such file or directory")
