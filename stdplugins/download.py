@@ -7,8 +7,6 @@ import aiohttp
 import asyncio
 import math
 import os
-import subprocess
-import asyncio
 import time
 from datetime import datetime
 from pySmartDL import SmartDL
@@ -66,8 +64,8 @@ async def _(event):
             speed = downloader.get_speed()
             elapsed_time = round(diff) * 1000
             progress_str = "[{0}{1}]\nProgress: {2}%".format(
-                ''.join(["⬤" for _ in range(math.floor(percentage / 5))]),
-                ''.join(["◯" for _ in range(20 - math.floor(percentage / 5))]),
+                ''.join("█" for _ in range(math.floor(percentage / 5))),
+                ''.join("░" for _ in range(20 - math.floor(percentage / 5))),
                 round(percentage, 2))
             estimated_total_time = downloader.get_eta(human=True)
             try:
@@ -91,30 +89,3 @@ async def _(event):
             await mone.edit("Incorrect URL\n {}".format(input_str))
     else:
         await mone.edit("Reply to a message to download to my local server.")
-
-@borg.on(admin_cmd(pattern="dls ?(.*)"))
-async def _(event):
-    if event.fwd_from:
-        return
-    cmd = "ls DOWNLOADS"
-    process = await asyncio.create_subprocess_shell(
-        cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-    )
-    o = stdout.decode()
-    _o = o.split("\n")
-    o = "\n".join(_o)
-    OUTPUT = f"**Here are your downloads:**\n{o}"
-    await event.edit(OUTPUT)
-
-@borg.on(admin_cmd(pattern="delete ?(.*)"))
-async def _(event):
-    if event.fwd_from:
-        return
-    file = event.pattern_match.group(1)
-    if not file:
-        await event.edit("Enter the file name to delete")
-    try:
-    	os.system(f"rm -rf DOWNLOADS/{x}")
-    	await event.edit("File deleted successfully.")
-    except:
-    	await event.edit("No such file or directory")
