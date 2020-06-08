@@ -270,7 +270,7 @@ async def song(video):
        except:
            await video.edit("Can't download the song due to some reason.")
        await video.edit("<i>Uploading...<i>")
-       file = glob.glob("*.mp3")
+       
        await video.client.send_file(message.chat_id, f"{rip_data['id']}.mp3", supports_streaming=True, attributes=[DocumentAttributeAudio(duration=int(rip_data['duration']), title=str(rip_data['title']), performer=str(rip_data['uploader']))])
        await video.delete()
        os.remove(f"{rip_data['id']}.mp3")
