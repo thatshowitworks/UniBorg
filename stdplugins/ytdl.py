@@ -196,6 +196,7 @@ async def download_video(v_url):
                 progress(d, t, v_url, c_time, "Uploading..",
                          f"{ytdl_data['title']}.mp3")))
         os.remove(f"{ytdl_data['id']}.mp3")
+        os.remove(f"{ytdl_data['id']}.jpg")
         await v_url.delete()
         os.system(" youtube-dl --rm-cache-dir")
     elif video:
@@ -225,3 +226,53 @@ async def yt_search(video_q):
     for i in results["videos"]:
            text += f"**◍ {i['title']}**\nhttps://www.youtube.com{i['link']}\n\n"
     await video_q.edit(text)
+
+@borg.on(admin_cmd(pattern="song (.*)"))
+async def song(video):
+   query = video.pattern_match.group(1)
+   if not query:
+         await video_q.edit("`Enter a search query.`")
+   results = json.loads(YoutubeSearch(str(query), max_results=1).to_json())
+   text = ""
+   for i in results ["videos"]:
+       text += f"https://www.youtube.com{i['link']}"
+       rip_data = ""
+       opts = {
+            'format':
+            'bestaudio',
+            'addmetadata':
+            True,
+            'key':
+            'FFmpegMetadata',
+            'writethumbnail':
+            True,
+            'prefer_ffmpeg':
+            True,
+            'geo_bypass':
+            True,
+            'nocheckcertificate':
+            True,
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '320',
+            }],
+            'outtmpl':
+            '%(id)s.mp3',
+            'quiet':
+            True,
+            'logtostderr':
+            False
+        }
+       try:
+           with YoutubeDL(opts) as rip:
+               rip_data += rip.extract_info(text)
+       except:
+           await video.edit("Can't download the song due to some reason.")
+       await video.edit("<i>Uploading...<i>")
+       file = glob.glob("*.mp3")
+       await video.client.send_file(message.chat_id, f"{rip_data['id']}.mp3", supports_streaming=True, attributes=[DocumentAttributeAudio(duration=int(rip_data['duration']), title=str(rip_data['title']), performer=str(rip_data['uploader']))])
+       await video.delete()
+       os.remove(f"{rip_data['id']}.mp3")
+       os.remove(f"{rip_data['id']}.jpg")
+       os.system(" youtube-dl --rm-cache-dir")
