@@ -35,7 +35,7 @@ async def _(event):
             ANTI_FLOOD_WARN_MODE
         ))
     except Exception as e:  # pylint:disable=C0103,W0703
-        no_admin_privilege_message = await event.client.send_message(
+        #no_admin_privilege_message = await event.client.send_message(
             entity=event.chat_id,
             message="""**Automatic AntiFlooder**
 @admin [User](tg://user?id={}) is flooding this chat.
@@ -44,7 +44,7 @@ async def _(event):
             reply_to=event.message.id
         )
         await asyncio.sleep(10)
-        await no_admin_privilege_message.edit(
+        #await no_admin_privilege_message.edit(
             "https://t.me/keralagram/724970",
             link_preview=False
         )
