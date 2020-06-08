@@ -273,7 +273,7 @@ async def _(event):
     except:
            await event.edit("Can't download the song due to some reason.")
     await event.edit("Uploading...")
-    await event.client.send_file(event.chat_id, f"str({rip_data['id']}).mp3", supports_streaming=True, attributes=[DocumentAttributeAudio(duration=int(rip_data['duration']), title=str(rip_data['title']), performer=str(rip_data['uploader']))])
+    await event.client.send_file(event.chat_id, f"{rip_data['id']}).mp3", supports_streaming=True, attributes=[DocumentAttributeAudio(duration=int(rip_data['duration']), title=str(rip_data['title']), performer=str(rip_data['uploader']))])
     await event.delete()
     os.remove(f"{rip_data['id']}.mp3")
     os.remove(f"{rip_data['id']}.jpg")
