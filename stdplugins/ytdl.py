@@ -215,6 +215,7 @@ async def download_video(v_url):
         os.remove(f"{ytdl_data['id']}.mp4")
         await v_url.delete()
         os.system(" youtube-dl --rm-cache-dir")
+
 @borg.on(admin_cmd(pattern="yt (.*)"))
 async def yt_search(video_q):
     """ For .yt command, do a YouTube search from Telegram. """
@@ -228,16 +229,18 @@ async def yt_search(video_q):
     await video_q.edit(text)
 
 @borg.on(admin_cmd(pattern="song (.*)"))
-async def song(video):
-   query = video.pattern_match.group(1)
-   if not query:
-         await video_q.edit("`Enter a search query.`")
-   results = json.loads(YoutubeSearch(str(query), max_results=1).to_json())
-   text = ""
-   for i in results ["videos"]:
+async def _(event):
+    if event.fwd_from:
+        return
+    query = event.pattern_match.group(1)
+    if not query:
+         await event.edit("`Enter a search query.`")
+    results = json.loads(YoutubeSearch(str(query), max_results=1).to_json())
+    text = ""
+    for i in results ["videos"]:
        text += f"https://www.youtube.com{i['link']}"
-       rip_data = ""
-       opts = {
+    rip_data = ""
+    opts = {
             'format':
             'bestaudio',
             'addmetadata':
@@ -264,15 +267,14 @@ async def song(video):
             'logtostderr':
             False
         }
-       try:
+    try:
            with YoutubeDL(opts) as rip:
                rip_data += rip.extract_info(text)
-       except:
-           await video.edit("Can't download the song due to some reason.")
-       await video.edit("Uploading...")
-       
-       await video.client.send_file(video.chat_id, f"{rip_data['id']}.mp3", supports_streaming=True, attributes=[DocumentAttributeAudio(duration=int(rip_data['duration']), title=str(rip_data['title']), performer=str(rip_data['uploader']))])
-       await video.delete()
-       os.remove(f"{rip_data['id']}.mp3")
-       os.remove(f"{rip_data['id']}.jpg")
-       os.system(" youtube-dl --rm-cache-dir")
+    except:
+           await event.edit("Can't download the song due to some reason.")
+    await event.edit("Uploading...")
+    await event.client.send_file(event.chat_id, f"{rip_data['id']}.mp3", supports_streaming=True, attributes=[DocumentAttributeAudio(duration=int(rip_data['duration']), title=str(rip_data['title']), performer=str(rip_data['uploader']))])
+    await event.delete()
+    os.remove(f"{rip_data['id']}.mp3")
+    os.remove(f"{rip_data['id']}.jpg")
+    os.system(" youtube-dl --rm-cache-dir")
