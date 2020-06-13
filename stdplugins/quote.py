@@ -391,5 +391,5 @@ async def _(event):
         if not res:
             return
         canvas.save('sticker.webp')
-        await borg.send_file(event.chat_id, "sticker.webp", reply_to=event.reply_to_msg_id)
+        await borg.send_file(event.chat_id, "sticker.webp")
         os.remove('sticker.webp')
