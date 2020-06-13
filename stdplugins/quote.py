@@ -1,3 +1,7 @@
+# All new quote module.
+# Ported by @okay_retard
+# Source: https://raw.githubusercontent.com/erenmetesar/NiceGrill/master/nicegrill/modules/quote.py
+
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from telethon.tl import types, functions
 from fontTools.ttLib import TTFont 
