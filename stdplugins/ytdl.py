@@ -238,7 +238,7 @@ async def _(event):
     text = ""
     for i in results ["videos"]:
        text += f"https://www.youtube.com{i['link']}"
-    rip_data = ""
+    ytdl_data = ""
     opts = {
             'format':
             'bestaudio',
