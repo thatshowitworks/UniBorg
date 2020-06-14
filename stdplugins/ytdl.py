@@ -274,7 +274,7 @@ async def _(event):
     await event.edit("Uploading...")
     await event.client.send_file(
             event.chat_id,
-            f"{ytdl_data['id']}.mp3",
+            f"int({ytdl_data['id']}).mp3",
             supports_streaming=True,
             attributes=[
                 DocumentAttributeAudio(duration=int(ytdl_data['duration']),
