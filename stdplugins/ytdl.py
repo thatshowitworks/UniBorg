@@ -230,8 +230,7 @@ async def yt_search(video_q):
 
 @borg.on(admin_cmd(pattern="song (.*)"))
 async def _(event):
-    if event.fwd_from:
-        return
+    
     query = event.pattern_match.group(1)
     if not query:
          await event.edit("`Enter a search query.`")
@@ -273,7 +272,19 @@ async def _(event):
     except:
            await event.edit("Can't download the song due to some reason.")
     await event.edit("Uploading...")
-    await event.client.send_file(event.chat_id, f"{rip_data['id']}).mp3", supports_streaming=True, attributes=[DocumentAttributeAudio(duration=int(rip_data['duration']), title=str(rip_data['title']), performer=str(rip_data['uploader']))])
+    await v_url.client.send_file(
+            v_url.chat_id,
+            f"{ytdl_data['id']}.mp3",
+            supports_streaming=True,
+            attributes=[
+                DocumentAttributeAudio(duration=int(ytdl_data['duration']),
+                                       title=str(ytdl_data['title']),
+                                       performer=str(ytdl_data['uploader']))
+            ],
+            progress_callback=lambda d, t: asyncio.get_event_loop(
+            ).create_task(
+                progress(d, t, v_url, c_time, "Uploading..",
+                         f"{ytdl_data['title']}.mp3")))
     await event.delete()
     os.remove(f"{rip_data['id']}.mp3")
     os.remove(f"{rip_data['id']}.jpg")
