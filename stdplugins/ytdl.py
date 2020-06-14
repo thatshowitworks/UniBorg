@@ -238,7 +238,7 @@ async def _(event):
     text = ""
     for i in results ["videos"]:
        text += f"https://www.youtube.com{i['link']}"
-    
+    c_time = time.time()
     opts = {
             'format':
             'bestaudio',
@@ -284,7 +284,7 @@ async def _(event):
             ],
             progress_callback=lambda d, t: asyncio.get_event_loop(
             ).create_task(
-                progress(d, t, v_url, c_time, "Uploading..",
+                progress(d, t, event, c_time, "Uploading..",
                          f"{ytdl_data['title']}.mp3")))
     await event.delete()
     os.remove(f"{ytdl_data['id']}.mp3")
