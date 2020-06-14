@@ -272,7 +272,7 @@ async def _(event):
     except:
            await event.edit("Can't download the song due to some reason.")
     await event.edit("Uploading...")
-    await v_url.client.send_file(
+    await event.client.send_file(
             v_url.chat_id,
             f"{ytdl_data['id']}.mp3",
             supports_streaming=True,
