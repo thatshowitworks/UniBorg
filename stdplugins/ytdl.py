@@ -287,6 +287,6 @@ async def _(event):
                 progress(d, t, v_url, c_time, "Uploading..",
                          f"{ytdl_data['title']}.mp3")))
     await event.delete()
-    os.remove(f"{rip_data['id']}.mp3")
-    os.remove(f"{rip_data['id']}.jpg")
+    os.remove(f"{ytdl_data['id']}.mp3")
+    os.remove(f"{ytdl_data['id']}.jpg")
     os.system(" youtube-dl --rm-cache-dir")
