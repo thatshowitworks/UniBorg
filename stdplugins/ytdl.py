@@ -281,11 +281,8 @@ async def _(event):
                 DocumentAttributeAudio(duration=int(ytdl_data['duration']),
                                        title=str(ytdl_data['title']),
                                        performer=str(ytdl_data['uploader']))
-            ],
-            progress_callback=lambda d, t: asyncio.get_event_loop(
-            ).create_task(
-                progress(d, t, event, c_time, "Uploading..",
-                         f"{ytdl_data['title']}.mp3")))
+            ])
+            
     await event.delete()
     os.remove(f"{ytdl_data['id']}.mp3")
     os.remove(f"{ytdl_data['id']}.jpg")
