@@ -268,7 +268,7 @@ async def _(event):
         }
     try:
            with YoutubeDL(opts) as rip:
-               rip_data += rip.extract_info(text)
+               ytdl_data += rip.extract_info(text)
     except:
            await event.edit("Can't download the song due to some reason.")
     await event.edit("Uploading...")
