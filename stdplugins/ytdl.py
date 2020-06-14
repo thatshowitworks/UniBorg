@@ -238,7 +238,7 @@ async def _(event):
     text = ""
     for i in results ["videos"]:
        text += f"https://www.youtube.com{i['link']}"
-    ytdl_data = ""
+    
     opts = {
             'format':
             'bestaudio',
@@ -268,13 +268,14 @@ async def _(event):
         }
     try:
            with YoutubeDL(opts) as rip:
-               ytdl_data += rip.extract_info(text)
+               ytdl_data = rip.extract_info(text)
     except:
            await event.edit("Can't download the song due to some reason.")
+           return
     await event.edit("Uploading...")
     await event.client.send_file(
             event.chat_id,
-            f"{int(ytdl_data['id'])}.mp3",
+            f"{ytdl_data['id']}.mp3",
             supports_streaming=True,
             attributes=[
                 DocumentAttributeAudio(duration=int(ytdl_data['duration']),
