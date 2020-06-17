@@ -24,8 +24,8 @@ sqlalchemy
 telegraph
 urbandict
 wikipedia
-youtube-dl
+git+https://github.com/FaArIsH/youtube-dl
 google-api-python-client==1.7.11
 oauth2client==4.1.3
-httplib2==0.13.1
+httplib2==0.15.0
 justwatch
