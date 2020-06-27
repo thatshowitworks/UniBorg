@@ -44,7 +44,7 @@ async def _(event):
     if dls.endswith(".tgs"):
         await event.edit("OMG, an Animated sticker ⊙_⊙, lemme do my bleck megik...")
         png_file = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY, "meme.png")
-        cmd = f"lottie_convert.py --frame 0 -if lottie -of png {dls_loc} {png_file}"
+        cmd = f"lottie_convert.py --frame 0 -if lottie -of PNG {dls_loc} {png_file}"
         stdout, stderr = (await runcmd(cmd))[:2]
         os.remove(dls_loc)
         if not os.path.lexists(png_file):
