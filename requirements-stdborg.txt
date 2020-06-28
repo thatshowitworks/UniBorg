@@ -28,7 +28,7 @@ git+https://github.com/FaArIsH/youtube-dl
 git+https://github.com/ahupp/python-magic
 google-api-python-client
 oauth2client
-httplib2
+httplib2==0.15.0
 pySmartDL
 PyPDF2
 cowpy
