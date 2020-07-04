@@ -14,6 +14,28 @@ from telethon import events
 from telethon.tl.types import DocumentAttributeVideo
 from uniborg.util import admin_cmd, humanbytes, progress, time_formatter
 
+@borg.on(admin_cmd(pattern="setthumb ?(.*)", allow_sudo=True))
+async def _(event):
+    if event.fwd_from:
+        return
+    mone = await event.reply("Processing ...")
+    
+    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
+        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
+    if event.reply_to_msg_id:
+        start = datetime.now()
+        reply_message = await event.get_reply_message()
+        try:
+            c_time = time.time()
+            dls = await borg.download_media(
+                reply_message,
+                Config.TMP_DOWNLOAD_DIRECTORY
+                )
+        except Exception as e:  # pylint:disable=C0103,W0703
+            await mone.edit(str(e))
+        else:
+            os.rename(file, "DOWNLOADS/thumb_image.jpg")
+            await mone.edit("Custom thumbnail saved.")
 
 @borg.on(admin_cmd(pattern="download ?(.*)", allow_sudo=True))
 async def _(event):
