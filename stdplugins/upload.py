@@ -257,8 +257,6 @@ async def _(event):
 
 @borg.on(admin_cmd(pattern="setthumb (.*)"))
 async def _(event):
-    if event.fwd_from:
-        return
     mone = await event.reply("Processing ...")
     
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
