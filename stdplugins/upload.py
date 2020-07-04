@@ -254,3 +254,26 @@ async def _(event):
             await mone.edit("Uploaded in {} seconds.".format(ms))
     else:
         await mone.edit("404: File Not Found")
+
+@borg.on(admin_cmd(pattern="setthumb (.*)"))
+async def _(event):
+    if event.fwd_from:
+        return
+    mone = await event.reply("Processing ...")
+    
+    if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
+        os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
+    if event.reply_to_msg_id:
+        start = datetime.now()
+        reply_message = await event.get_reply_message()
+        try:
+            c_time = time.time()
+            dls = await borg.download_media(
+                reply_message,
+                Config.TMP_DOWNLOAD_DIRECTORY
+                )
+        except Exception as e:  # pylint:disable=C0103,W0703
+            await mone.edit(str(e))
+        else:
+            os.rename(file, "thumb_image.jpg")
+            await mone.edit("Custom thumbnail saved.")
