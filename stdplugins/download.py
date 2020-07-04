@@ -14,12 +14,15 @@ from telethon import events
 from telethon.tl.types import DocumentAttributeVideo
 from uniborg.util import admin_cmd, humanbytes, progress, time_formatter
 
+thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
+
 @borg.on(admin_cmd(pattern="setthumb ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
     mone = await event.reply("Processing ...")
-    
+    if os.path.exists(thumb_image_path):
+        os.remove(thumb_image_path)
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
     if event.reply_to_msg_id:
