@@ -34,7 +34,7 @@ async def _(event):
         except Exception as e:  # pylint:disable=C0103,W0703
             await mone.edit(str(e))
         else:
-            os.rename(file, "DOWNLOADS/thumb_image.jpg")
+            os.rename(dls, "DOWNLOADS/thumb_image.jpg")
             await mone.edit("Custom thumbnail saved.")
 
 @borg.on(admin_cmd(pattern="download ?(.*)", allow_sudo=True))
