@@ -16,6 +16,7 @@ from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon import events
 from telethon.tl.types import DocumentAttributeVideo
+from telethon.tl.types import DocumentAttributeAudio
 from uniborg.util import progress, admin_cmd
 
 
@@ -32,7 +33,7 @@ def get_lst_of_files(input_directory, output_lst):
     return output_lst
 
 
-@borg.on(admin_cmd("uploadir (.*)"))
+@borg.on(admin_cmd(pattern="uploadir (.*)"))
 async def _(event):
     if event.fwd_from:
         return
@@ -58,19 +59,19 @@ async def _(event):
                 force_document = True
                 supports_streaming = False
                 document_attributes = []
-                if single_file.endswith((".mkv", ".mp4", ".mp3", ".flac", ".webm")):
+                width = 0
+                height = 0
+                if os.path.exists(thumb_image_path):
+                    metadata = extractMetadata(createParser(thumb_image_path))
+                    if metadata.has("width"):
+                        width = metadata.get("width")
+                    if metadata.has("height"):
+                        height = metadata.get("height")
+                if single_file.upper().endswith(Config.TL_VID_STREAM_TYPES):
                     metadata = extractMetadata(createParser(single_file))
                     duration = 0
-                    width = 0
-                    height = 0
                     if metadata.has("duration"):
                         duration = metadata.get('duration').seconds
-                    if os.path.exists(thumb_image_path):
-                        metadata = extractMetadata(createParser(thumb_image_path))
-                        if metadata.has("width"):
-                            width = metadata.get("width")
-                        if metadata.has("height"):
-                            height = metadata.get("height")
                     document_attributes = [
                         DocumentAttributeVideo(
                             duration=duration,
@@ -80,13 +81,37 @@ async def _(event):
                             supports_streaming=True
                         )
                     ]
+                    supports_streaming = True
+                    force_document = False
+                if single_file.upper().endswith(Config.TL_MUS_STREAM_TYPES):
+                    metadata = extractMetadata(createParser(single_file))
+                    duration = 0
+                    title = ""
+                    artist = ""
+                    if metadata.has("duration"):
+                        duration = metadata.get('duration').seconds
+                    if metadata.has("title"):
+                        title = metadata.get("title")
+                    if metadata.has("artist"):
+                        artist = metadata.get("artist")
+                    document_attributes = [
+                        DocumentAttributeAudio(
+                            duration=duration,
+                            voice=False,
+                            title=title,
+                            performer=artist,
+                            waveform=None
+                        )
+                    ]
+                    supports_streaming = True
+                    force_document = False
                 try:
                     await borg.send_file(
                         event.chat_id,
                         single_file,
                         caption=caption_rts,
-                        force_document=bool(os.environ.get('FORCE_DOCUMENT',None)),
-                        supports_streaming=False,
+                        force_document=force_document,
+                        supports_streaming=supports_streaming,
                         allow_cache=False,
                         reply_to=event.message.id,
                         thumb=thumb,
@@ -131,8 +156,8 @@ async def _(event):
         await borg.send_file(
             event.chat_id,
             input_str,
-            force_document=True,
-            supports_streaming=False,
+            force_document=False,
+            supports_streaming=True,
             allow_cache=False,
             reply_to=event.message.id,
             thumb=thumb,
@@ -141,7 +166,7 @@ async def _(event):
             )
         )
         end = datetime.now()
-        os.remove(input_str)
+        # os.remove(input_str)
         ms = (end - start).seconds
         await mone.edit("Uploaded in {} seconds.".format(ms))
     else:
