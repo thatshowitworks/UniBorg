@@ -9,6 +9,8 @@ class Config(object):
     LOGGER = True
     # Your Telegram Username
     ALIVE_NAME = os.environ.get("ALIVE_NAME", None)
+    CUSTOM_ALIVE = os.environ.get("CUSTOM_ALIVE", None)
+    CUSTOM_PM = os.environ.get("CUSTOM_PM", None)
     # Get this value from my.telegram.org! Please do not steal
     APP_ID = int(os.environ.get("APP_ID", 6))
     API_HASH = os.environ.get("API_HASH", "eb06d4abfb49dc3eeb1aeb98ae0f581e")
