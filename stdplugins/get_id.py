@@ -5,7 +5,7 @@ from telethon.utils import pack_bot_file_id
 from uniborg.util import admin_cmd
 
 
-@borg.on(admin_cmd(pattern="get_id"))
+@borg.on(events.NewMessage(pattern='.get_id'))
 async def _(event):
     if event.fwd_from:
         return
