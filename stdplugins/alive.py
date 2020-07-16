@@ -1,14 +1,18 @@
 import asyncio
 from telethon import events
+from telethon import version
+from platform import python_version, uname
 from telethon.tl.types import ChannelParticipantsAdmins
 from uniborg.util import admin_cmd
 
 DEFAULTUSER = Config.ALIVE_NAME
+Alive = Config.CUSTOM_ALIVE
+
 @borg.on(admin_cmd("alive"))
 async def _(event):
     if event.fwd_from:
         return
-    mentions = f"My bot is running.\n\nTelethon version: 1.11.3.\nPython: 3.8.2.\nUser: {DEFAULTUSER}."
+    mentions = f"My bot is running.\n\nTelethon version: {version.__version__}.\nPython: {python_version()}.\nUser: {DEFAULTUSER}."
     chat = await event.get_input_chat()
     async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
         mentions += f""
