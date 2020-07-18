@@ -12,7 +12,10 @@ Alive = Config.CUSTOM_ALIVE
 async def _(event):
     if event.fwd_from:
         return
-    mentions = f"My bot is running.\n\nTelethon version: {version.__version__}.\nPython: {python_version()}.\nUser: {DEFAULTUSER}."
+    if Alive:
+       mentions = f"{Alive}.\n\nTelethon version: {version.__version__}.\nPython: {python_version()}.\nUser: {DEFAULTUSER}."
+    else:
+       mentions = f"My bot is running.\n\nTelethon version: {version.__version__}.\nPython: {python_version()}.\nUser: {DEFAULTUSER}."
     chat = await event.get_input_chat()
     async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
         mentions += f""
