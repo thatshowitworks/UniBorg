@@ -77,9 +77,8 @@ async def approve_p_m(event):
                     await borg.storage.PREV_REPLY_MESSAGE[chat.id].delete()
                     del borg.storage.PREV_REPLY_MESSAGE[chat.id]
                 approve(chat.id, reason)
-                await event.edit("Private Message Accepted")
-                await asyncio.sleep(3)
-                await event.delete()
+                await event.edit(f"I have allowed [you](tg://user?id={chat.id}) to PM me.")
+                
 
 
 @borg.on(admin_cmd("deny ?(.*)"))
@@ -92,7 +91,7 @@ async def approve_p_m(event):
         if event.is_private:
             if is_approved(chat.id):
                 disapprove(chat.id)
-                await event.edit(f"I have denied [you](tg://user?id={chat.id})")
+                await event.edit(f"I have denied [you](tg://user?id={chat.id}) to PM me.")
 
 @borg.on(admin_cmd("list approved pms"))
 async def approve_p_m(event):
