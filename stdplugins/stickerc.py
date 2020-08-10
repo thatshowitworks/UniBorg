@@ -1,6 +1,7 @@
 # Random RGB Sticklet by @PhycoNinja13b
 
 # modified by @UniBorg
+""".stcr"""
 
 import io
 import os
