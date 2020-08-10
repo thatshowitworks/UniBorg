@@ -7,7 +7,7 @@ import asyncio
 from uniborg.util import admin_cmd
 
 
-@borg.on(admin_cmd("music (.*)"))
+@borg.on(admin_cmd(pattern="music ?(.*)"))
 async def _(event):
     if event.fwd_from:
         return
