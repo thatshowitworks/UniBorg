@@ -855,6 +855,29 @@ async def _(event):
     input_str = event.pattern_match.group(1)
     reply_text = FACEREACTS[bro]
     await event.edit(reply_text)
+
+@borg.on(admin_cmd(pattern="waifu (.*)"))
+async def _(event):
+    """Generate random waifu sticker with the text!"""
+    text = event.pattern_match.group(1)
+    if not text:
+        if event.is_reply:
+            text = (await event.get_reply_message()).message
+        else:
+            await event.edit("`No text given, hence the waifu ran away.`")
+            return
+    animus = [20, 32, 33, 40, 41, 42, 58]
+    sticcers = await event.client.inline_query(
+        "stickerizerbot", f"#{random.choice(animus)}{(deEmojify(text))}")
+    try:
+        await sticcers[0].click(event.chat_id,
+                                reply_to=event.reply_to_msg_id,
+                                silent=True if event.is_reply else False,
+                                hide_via=True)
+        await event.delete()
+    except IndexError:
+        await event.edit("`F, can't find any waifu for you :P`")
+        return
 	
 @borg.on(admin_cmd("react ?(.*)"))
 async def _(event):
