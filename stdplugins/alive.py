@@ -22,7 +22,7 @@ async def _(event):
     reply_message = None
     if event.reply_to_msg_id:
         reply_message = await event.get_reply_message()
-        await reply_message.reply(mentions)
+        await reply_message.reply("Zinda hu @SourabhxD sur. Batao kiski marni.")
     else:
         await event.reply(mentions)
     await event.delete()                   
