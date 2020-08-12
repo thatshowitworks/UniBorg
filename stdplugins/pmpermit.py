@@ -38,7 +38,7 @@ async def monito_p_m_s(event):
             if chat.id not in borg.storage.PM_WARNS:
                 borg.storage.PM_WARNS.update({chat.id: 0})
             if borg.storage.PM_WARNS[chat.id] == Config.MAX_FLOOD_IN_P_M_s:
-                r = await event.reply(UNIBORG_USER_BOT_WARN_ZERO)
+                r = await event.reply(UNIBORG_USER_BOT_WARN_ZERO, link_preview=False)
                 await asyncio.sleep(3)
                 await borg(functions.contacts.BlockRequest(chat.id))
                 if chat.id in borg.storage.PREV_REPLY_MESSAGE:
