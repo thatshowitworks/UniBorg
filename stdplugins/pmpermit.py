@@ -18,8 +18,7 @@ borg.storage.PREV_REPLY_MESSAGE = {}
 BAALAJI_TG_USER_BOT = "My Master hasn't approved you to PM."
 TG_COMPANION_USER_BOT = "Please wait for his response and don't spam his PM."
 UNIBORG_USER_BOT_WARN_ZERO = "I am currently offline. Please do not SPAM me."
-UNIBORG_USER_BOT_NO_WARN = "Hi there,this is a bot.My master don't approve PMs from strangers so please contact him in group. And please don't spam his PM else I will have to block you"
-
+UNIBORG_USER_BOT_NO_WARN = "Henlo, this is a bot.My master @YourWittyDad is busy in making people laugh and usually don't approve PMs from strangers so pleae contact him in group. And please don't spam his PM else I will have to block you."
 
 @borg.on(events.NewMessage(incoming=True, func=lambda e: e.is_private))
 async def monito_p_m_s(event):
@@ -39,28 +38,18 @@ async def monito_p_m_s(event):
             if chat.id not in borg.storage.PM_WARNS:
                 borg.storage.PM_WARNS.update({chat.id: 0})
             if borg.storage.PM_WARNS[chat.id] == Config.MAX_FLOOD_IN_P_M_s:
-                if Config.CUSTOM_PM:
-                   r = await event.reply(Config.CUSTOM_PM)
-                   await asyncio.sleep(3)
-                   await borg(functions.contacts.BlockRequest(chat.id))
-                   if chat.id in borg.storage.PREV_REPLY_MESSAGE:
+                r = await event.reply(UNIBORG_USER_BOT_WARN_ZERO)
+                await asyncio.sleep(3)
+                await borg(functions.contacts.BlockRequest(chat.id))
+                if chat.id in borg.storage.PREV_REPLY_MESSAGE:
                     await borg.storage.PREV_REPLY_MESSAGE[chat.id].delete()
-                   borg.storage.PREV_REPLY_MESSAGE[chat.id] = r
-                   return
-                else:
-                   r = await event.reply(UNIBORG_USER_BOT_NO_WARN)
-                   await asyncio.sleep(3)
-                   await borg(functions.contacts.BlockRequest(chat.id))
-                   if chat.id in borg.storage.PREV_REPLY_MESSAGE:
-                    await borg.storage.PREV_REPLY_MESSAGE[chat.id].delete()
-                   borg.storage.PREV_REPLY_MESSAGE[chat.id] = r
-                   return
+                borg.storage.PREV_REPLY_MESSAGE[chat.id] = r
+                return
             r = await event.reply(UNIBORG_USER_BOT_NO_WARN)
             borg.storage.PM_WARNS[chat.id] += 1
             if chat.id in borg.storage.PREV_REPLY_MESSAGE:
                 await borg.storage.PREV_REPLY_MESSAGE[chat.id].delete()
             borg.storage.PREV_REPLY_MESSAGE[chat.id] = r
-
 
 @borg.on(admin_cmd("allow ?(.*)"))
 async def approve_p_m(event):
