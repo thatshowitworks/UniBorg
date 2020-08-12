@@ -24,5 +24,5 @@ async def _(event):
         reply_message = await event.get_reply_message()
         await reply_message.reply("Zinda hu @SourabhxD sur. Batao kiski marni.")
     else:
-        await event.reply(mentions)
+        await event.reply("Zinda hu @SourabhxD sur. Batao kiski marni.")
     await event.delete()                   
